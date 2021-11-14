@@ -1,0 +1,29 @@
+name: 'GitHub Actions Weather Bot'
+ 
+on:
+  push:
+  schedule:
+    - cron: '25 4 * * *'
+
+jobs:
+  bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout codes'
+        uses: actions/chekcout@1
+      - name: 'Get Weather'
+        uses: bash ./weather.sh
+      - name: 'Get Date'
+        uses: echo "REPORT_DATE=$(TZ=':Asia/Shanghai' date '+%Y-%m-%d %T') >> $GIEHUB_ENV
+      - name: 'Send mail'
+        uses: dawidd6/action-send-mail@master
+        with:
+          server_address: smtp.163.com
+          server_port: 465
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: Hangzhou Weather Report (${{env.REPORT_DATE}})
+          body: file://result.html
+          to: newsunstudy@163.com
+          from: GitHub Actions
+          content_type: text/html
