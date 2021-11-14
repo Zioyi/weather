@@ -12,9 +12,9 @@ jobs:
       - name: 'Checkout codes'
         uses: actions/chekcout@1
       - name: 'Get Weather'
-        uses: bash ./weather.sh
+        run: bash ./weather.sh
       - name: 'Get Date'
-        uses: echo "REPORT_DATE=$(TZ=':Asia/Shanghai' date '+%Y-%m-%d %T') >> $GIEHUB_ENV
+        run: echo "REPORT_DATE=$(TZ=':Asia/Shanghai' date '+%Y-%m-%d %T') >> $GIEHUB_ENV
       - name: 'Send mail'
         uses: dawidd6/action-send-mail@master
         with:
